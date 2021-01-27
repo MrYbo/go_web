@@ -21,6 +21,6 @@ func Init(router *gin.Engine) {
 	)
 
 	if conf.Server.Authentication == "session" {
-		router.Use(sessions.Sessions("session_id", auth.Init()))
+		router.Use(sessions.Sessions(config.Conf.Session.Name, auth.Init()))
 	}
 }

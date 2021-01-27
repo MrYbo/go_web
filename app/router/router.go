@@ -3,7 +3,6 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"web_start/app/config"
 	"web_start/app/container/user"
 	"web_start/app/middleware"
 )
@@ -19,9 +18,7 @@ func Init(engine *gin.Engine) *gin.Engine {
 	engine.LoadHTMLGlob("app/view/*")
 
 	engine.NoRoute(middleware.Auth(), func(c *gin.Context) {
-		// 登录成功之后访问任何页面都跳转
-		c.Redirect(http.StatusFound, config.Conf.Redirect.Url)
-		return
+		c.HTML(http.StatusOK, "index.html", nil)
 	})
 
 	// 路由初始化

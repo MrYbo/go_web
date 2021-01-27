@@ -16,14 +16,9 @@ func Init() sessions.Store {
 	conf := config.Conf
 	var Store sessions.Store
 	if conf.Storage == "redis" {
-		Store, _ = redis.NewStore(
-			conf.Size,
-			"tcp",
-			conf.Addr,
-			conf.Redis.Password,
-			[]byte(conf.Session.Key))
+		Store, _ = redis.NewStore(conf.Size, "tcp", conf.Addr, conf.Redis.Password, []byte(conf.Session.Secret))
 	} else {
-		Store = cookie.NewStore([]byte(conf.Session.Key))
+		Store = cookie.NewStore([]byte(conf.Session.Secret))
 		Store.Options(sessions.Options{
 			Path:     conf.Session.Path,
 			Domain:   conf.Session.Domain,

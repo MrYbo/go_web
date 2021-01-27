@@ -28,20 +28,14 @@ type Server struct {
 }
 
 type Mysql struct {
-	User                      string `yaml:"user"`
-	Password                  string `yaml:"password"`
-	Path                      string `yaml:"path"`
-	Database                  string `yaml:"database"`
-	Config                    string `yaml:"config"`
-	LogLevel                  int    `yaml:"logLevel"`
-	MaxIdleConns              int    `yaml:"maxIdleConns"`
-	MaxOpenConns              int    `yaml:"maxOpenConns"`
-	AutoMigrate               bool   `yaml:"autoMigrate"`
-	DefaultStringSize         uint   `yaml:"defaultStringSize"`
-	DisableDatetimePrecision  bool   `yaml:"disableDatetimePrecision"`
-	DontSupportRenameIndex    bool   `yaml:"dontSupportRenameIndex"`
-	DontSupportRenameColumn   bool   `yaml:"dontSupportRenameColumn"`
-	SkipInitializeWithVersion bool   `yaml:"skipInitializeWithVersion"`
+	User         string `yaml:"user"`
+	Password     string `yaml:"password"`
+	Path         string `yaml:"path"`
+	Database     string `yaml:"database"`
+	Config       string `yaml:"config"`
+	LogLevel     int    `yaml:"logLevel"`
+	MaxIdleConns int    `yaml:"maxIdleConns"`
+	MaxOpenConns int    `yaml:"maxOpenConns"`
 }
 
 type Redis struct {
@@ -52,7 +46,8 @@ type Redis struct {
 
 type Session struct {
 	Storage  string `yaml:"storage"`
-	Key      string `yaml:"key"`
+	Name     string `yaml:"name"`
+	Secret   string `yaml:"secret"`
 	Size     int    `yaml:"size"`
 	MaxAge   int    `yaml:"maxAge"`
 	Path     string `yaml:"path"`

@@ -21,14 +21,15 @@ var app = gin.New()
 var conf = config.Conf
 
 func init() {
-	gin.SetMode(conf.Mode)
-	// 数据库初始化
+	gin.SetMode(gin.ReleaseMode)
 	mysql.Init()
 	redis.Init()
-	// 全局中间件初始化
 	middleware.Init(app)
-	// 路由初始化
 	router.Init(app)
+}
+
+func main() {
+	RunServer()
 }
 
 func RunServer() {
@@ -58,9 +59,4 @@ func RunServer() {
 		log.Fatal("Server forced to shutdown:", err)
 	}
 	log.Println("Server exiting")
-}
-
-func main() {
-	gin.SetMode(gin.ReleaseMode)
-	RunServer()
 }
