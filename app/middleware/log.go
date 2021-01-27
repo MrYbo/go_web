@@ -6,11 +6,11 @@ import (
 	"github.com/rifflock/lfshook"
 	"github.com/sirupsen/logrus"
 	"log"
-	"login/app/config"
 	"os"
 	"path"
 	"strings"
 	"time"
+	"web_start/app/config"
 )
 
 func LoggerToFile() gin.HandlerFunc {
@@ -113,4 +113,3 @@ func LoggerToES() gin.HandlerFunc {
 
 	}
 }
-

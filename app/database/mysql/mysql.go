@@ -7,9 +7,9 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"log"
-	"login/app/config"
 	"os"
 	"time"
+	"web_start/app/config"
 )
 
 var DB *gorm.DB

@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"login/app/config"
-	"login/app/schema/request"
 	"net/http"
+	"web_start/app/config"
+	"web_start/app/schema/request"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"

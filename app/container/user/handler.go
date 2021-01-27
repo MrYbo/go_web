@@ -2,18 +2,16 @@ package user
 
 import (
 	"encoding/gob"
-	"login/app/auth"
-	"login/app/config"
-	"login/app/model/dao"
-	"login/app/model/entity"
-	"login/app/schema/request"
-	"login/app/schema/response"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"web_start/app/auth"
+	"web_start/app/config"
+	"web_start/app/database/mysql"
+	"web_start/app/model/entity"
+	"web_start/app/schema/request"
+	"web_start/app/schema/response"
 )
 
-var userDAO *dao.User
 var conf = config.Conf
 
 func LoginPage(c *gin.Context) {
@@ -50,7 +48,8 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	user := userDAO.FindOne("name=?", lp.Username).(entity.User)
+	var user entity.User
+	mysql.DB.Where("name=?", lp.Username)
 
 	if user.Id == 0 || user.Password != lp.Password {
 		response.Failed(c, http.StatusBadRequest, "账号或密码错误")

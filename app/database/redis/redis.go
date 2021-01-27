@@ -3,7 +3,7 @@ package redis
 import (
 	"github.com/go-redis/redis"
 	"github.com/sirupsen/logrus"
-	"login/app/config"
+	"web_start/app/config"
 )
 
 var Redis *redis.Client
@@ -13,7 +13,7 @@ func Init() {
 	client := redis.NewClient(&redis.Options{
 		Addr:     conf.Addr,
 		Password: conf.Password,
-		DB:       conf.Db,       // use default DB
+		DB:       conf.Db, // use default DB
 	})
 
 	_, err := client.Ping().Result()

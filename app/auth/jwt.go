@@ -4,23 +4,23 @@ import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"login/app/config"
-	"login/app/model/dao"
-	"login/app/model/entity"
-	"login/app/schema/request"
-	"login/app/schema/response"
 	"net/http"
 	"time"
+	"web_start/app/config"
+	"web_start/app/database/mysql"
+	"web_start/app/model/entity"
+	"web_start/app/schema/request"
+	"web_start/app/schema/response"
 )
 
 var conf = config.Conf
 
 /**
-	生成token
- */
+生成token
+*/
 func GenToken(id int, username string) (string, error) {
 	claims := request.MyClaims{
-		Id: id,
+		Id:   id,
 		Name: username,
 		StandardClaims: jwt.StandardClaims{
 			NotBefore: time.Now().Unix(),
@@ -38,7 +38,7 @@ func GenToken(id int, username string) (string, error) {
 }
 
 /**
-	验证token
+验证token
 */
 func ParseToken(tokenStr string) (*request.MyClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenStr, &request.MyClaims{}, func(token *jwt.Token) (interface{}, error) {
@@ -55,9 +55,9 @@ func ParseToken(tokenStr string) (*request.MyClaims, error) {
 }
 
 /**
-	从请求中获取token
- */
-func AuthJWT(c *gin.Context){
+从请求中获取token
+*/
+func AuthJWT(c *gin.Context) {
 	token := c.Request.Header.Get("x-token")
 	if token == "" {
 		c.Redirect(http.StatusFound, "/login")
@@ -72,9 +72,9 @@ func AuthJWT(c *gin.Context){
 		return
 	}
 
-	var au  = request.AuthUser{Id: mc.Id, Name: mc.Name}
-	var userDAO *dao.User
-	user := userDAO.FindOne("id = ? and name = ?", au.Id, au.Name).(entity.User)
+	var au = request.AuthUser{Id: mc.Id, Name: mc.Name}
+	var user entity.User
+	mysql.DB.Where("id = ? and name = ?", au.Id, au.Name)
 	if user.Id == 0 {
 		response.Failed(c, http.StatusBadRequest, "用户不存在")
 		c.Abort()
@@ -84,9 +84,9 @@ func AuthJWT(c *gin.Context){
 }
 
 /**
-	存储token
- */
-func SaveAuthJWT (c *gin.Context, user request.AuthUser) string{
+存储token
+*/
+func SaveAuthJWT(c *gin.Context, user request.AuthUser) string {
 	token, err := GenToken(user.Id, user.Name)
 	if err != nil {
 		response.Failed(c, http.StatusBadRequest, "生成token失败，请重新登录")
@@ -95,8 +95,7 @@ func SaveAuthJWT (c *gin.Context, user request.AuthUser) string{
 	return token
 }
 
-
-func HasToken(c *gin.Context) bool{
+func HasToken(c *gin.Context) bool {
 	token := c.Request.Header.Get("x-token")
 	if token == "" {
 		return false

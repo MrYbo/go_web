@@ -2,10 +2,10 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"login/app/config"
-	"login/app/middleware"
-	"login/app/modules/user"
 	"net/http"
+	"web_start/app/config"
+	"web_start/app/container/user"
+	"web_start/app/middleware"
 )
 
 type routerGroup func(engine *gin.Engine)
@@ -13,8 +13,6 @@ type routerGroup func(engine *gin.Engine)
 var routers = [...]routerGroup{
 	user.Router,
 }
-
-
 
 func Init(engine *gin.Engine) *gin.Engine {
 	// 配置模板

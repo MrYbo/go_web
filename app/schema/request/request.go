@@ -3,8 +3,8 @@ package request
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"login/app/schema/response"
 	"net/http"
+	"web_start/app/schema/response"
 )
 
 const (
@@ -12,7 +12,7 @@ const (
 	ParamTypeError   = "参数格式错误"
 )
 
-func Validate(ctx *gin.Context,p interface{})  error{
+func Validate(ctx *gin.Context, p interface{}) error {
 	if err := ctx.ShouldBind(p); err != nil {
 		response.Failed(ctx, http.StatusBadRequest, ParamFormatError)
 		return err

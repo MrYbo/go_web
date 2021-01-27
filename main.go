@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
-	"login/app/config"
-	"login/app/database/mysql"
-	"login/app/database/redis"
-	"login/app/middleware"
-	"login/app/router"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+	"web_start/app/config"
+	"web_start/app/database/mysql"
+	"web_start/app/database/redis"
+	"web_start/app/middleware"
+	"web_start/app/router"
 )
 
 var app = gin.New()
