@@ -18,7 +18,7 @@ var conf = config.Conf
 /**
 生成token
 */
-func GenToken(id int, username string) (string, error) {
+func GenToken(id uint, username string) (string, error) {
 	claims := request.MyClaims{
 		Id:   id,
 		Name: username,
@@ -75,7 +75,7 @@ func AuthJWT(c *gin.Context) {
 	var au = request.AuthUser{Id: mc.Id, Name: mc.Name}
 	var user entity.User
 	mysql.DB.Where("id = ? and name = ?", au.Id, au.Name)
-	if user.Id == 0 {
+	if user.ID == 0 {
 		response.Failed(c, http.StatusBadRequest, "用户不存在")
 		c.Abort()
 		return

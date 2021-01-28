@@ -15,17 +15,7 @@ import (
 var conf = config.Conf
 
 func LoginPage(c *gin.Context) {
-	if config.Conf.Server.Authentication == "jwt" {
-		if auth.HasToken(c) {
-			c.Redirect(http.StatusFound, config.Conf.Redirect.Url)
-			return
-		}
-	} else {
-		if auth.HasSession(c) {
-			c.Redirect(http.StatusFound, config.Conf.Redirect.Url)
-			return
-		}
-	}
+	// 鉴权
 	c.HTML(http.StatusOK, "login.html", nil)
 }
 
@@ -51,12 +41,12 @@ func Login(c *gin.Context) {
 	var user entity.User
 	mysql.DB.Where("name=?", lp.Username)
 
-	if user.Id == 0 || user.Password != lp.Password {
+	if user.ID == 0 || user.Password != lp.Password {
 		response.Failed(c, http.StatusBadRequest, "账号或密码错误")
 		return
 	}
 
-	authUser := request.AuthUser{Id: user.Id, Name: user.Name}
+	authUser := request.AuthUser{Id: user.ID, Name: user.Name}
 
 	if config.Conf.Server.Authentication == "jwt" {
 		// 登录成功，生成token凭证
@@ -70,6 +60,6 @@ func Login(c *gin.Context) {
 
 	auth.SaveAuthSession(c, authUser)
 	response.Success(c, http.StatusOK, map[string]interface{}{
-		"redirect": conf.Redirect.Url,
+		"user": user,
 	})
 }
