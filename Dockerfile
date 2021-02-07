@@ -11,6 +11,7 @@ ENV GOARCH=amd64
 # 创建目录,保存代码
 RUN mkdir -p /opt/workspace/login
 WORKDIR /opt/workspace/login
+RUN mkdir -p logs
 ADD go.mod .
 ADD go.sum .
 
