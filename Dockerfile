@@ -14,9 +14,10 @@ WORKDIR /opt/workspace/login
 ADD go.mod .
 ADD go.sum .
 
+RUN go mod download
+
 COPY . .
 
-RUN go mod download
 
 RUN CGO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -a -o login .
 
